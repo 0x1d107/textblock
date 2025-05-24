@@ -1,0 +1,51 @@
+#include "blocks.h"
+#include <cstring>
+#include <vector>:
+#include <iostream>
+#include <stdexcept>
+#include <unistd.h>
+void FilterBlock::begin(std::stringstream &ss){	
+	std::string name;
+	ss >>name;
+	std::cerr<<"Filtering through "<<name<<std::endl;
+	if(!name.size()){
+		std::cerr << "bad filter executable name" <<std::endl;
+		exit(1);
+	}
+	subproc filter;
+	if(pipe(filter.pipesfd)) {
+		throw std::runtime_error(strerror(errno));
+	}
+	pid_t pid = fork();
+	if(pid == -1)
+		throw std::runtime_error("fork failed");
+	if(!pid){
+		close(filter.pipesfd[1]);
+		dup2(filter.pipesfd[0], STDIN_FILENO);
+		close(filter.pipesfd[0]);
+		std::vector <char> mutname = std::vector<char>(name.begin(),name.end());
+		
+		char* argv[] = {mutname.data(),NULL};
+		execvp(name.c_str(),argv);
+		exit(1);
+	}
+	filter.pid = pid;
+	procs.push_back(filter);
+}
+void FilterBlock::end(std::stringstream &ss){
+	subproc proc = procs.back();
+	procs.pop_back();
+	close(proc.pipesfd[1]);
+	close(proc.pipesfd[0]);
+	int status;
+	waitpid(proc.pid,&status,0);
+}
+void FilterBlock::line(std::stringstream &ss){
+	subproc proc = procs.back();
+	std::string linestr = ss.str();
+	size_t line_sz = linestr.size();
+	const char *line_buf = linestr.c_str();
+	write(proc.pipesfd[1],line_buf,line_sz);
+	write(proc.pipesfd[1],"\n",1);
+
+}
