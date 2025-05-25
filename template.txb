@@ -1,0 +1,10 @@
+<html>
+<head>
+	<title> Template </title>
+</head>
+<body>
+#%block filter lowdown
+#%swap
+#%end
+</body>
+</html>

@@ -1,14 +1,13 @@
 #include "blocks.h"
 #include <cstring>
-#include <vector>:
 #include <iostream>
 #include <stdexcept>
 #include <unistd.h>
-void FilterBlock::begin(std::stringstream &ss){	
-	std::string name;
-	ss >>name;
-	std::cerr<<"Filtering through "<<name<<std::endl;
-	if(!name.size()){
+void FilterBlock::begin(std::stringstream &ss){
+	ss>>std::ws;	
+	std::string cmd;
+	cmd = ss.str().substr(ss.tellg());
+	if(!cmd.size()){
 		std::cerr << "bad filter executable name" <<std::endl;
 		exit(1);
 	}
@@ -23,10 +22,8 @@ void FilterBlock::begin(std::stringstream &ss){
 		close(filter.pipesfd[1]);
 		dup2(filter.pipesfd[0], STDIN_FILENO);
 		close(filter.pipesfd[0]);
-		std::vector <char> mutname = std::vector<char>(name.begin(),name.end());
-		
-		char* argv[] = {mutname.data(),NULL};
-		execvp(name.c_str(),argv);
+		const char *argv[] = {"/bin/sh","-c",cmd.c_str(),NULL};
+		execv("/bin/sh",const_cast<char* const*>(argv));
 		exit(1);
 	}
 	filter.pid = pid;
@@ -47,5 +44,4 @@ void FilterBlock::line(std::stringstream &ss){
 	const char *line_buf = linestr.c_str();
 	write(proc.pipesfd[1],line_buf,line_sz);
 	write(proc.pipesfd[1],"\n",1);
-
 }
