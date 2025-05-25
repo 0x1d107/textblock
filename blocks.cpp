@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <unistd.h>
+#include <sys/wait.h>
 void FilterBlock::begin(std::stringstream &ss){
 	ss>>std::ws;	
 	std::string cmd;
