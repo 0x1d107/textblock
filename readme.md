@@ -8,11 +8,13 @@ then this is what you need.
 
 ## Examples
 Filtering through external program:
+
 	#%block filter [cmd]
 		[text]
 	#%end
 
 File inclusion
+
 	#%include [filename]
 
 
