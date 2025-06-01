@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <deque>
 #include <sstream>
 struct TextBlock{
@@ -20,5 +19,12 @@ private:
 		pid_t pid;
 	};
 	std::deque<subproc> procs;
+
+};
+
+class ExpansionBlock : public TextBlock{
+	void begin(std::stringstream & ss) override;
+	void end(std::stringstream &ss) override;
+	void line(std::stringstream &ss) override;
 
 };

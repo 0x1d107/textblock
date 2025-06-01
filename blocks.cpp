@@ -30,7 +30,7 @@ void FilterBlock::begin(std::stringstream &ss){
 	filter.pid = pid;
 	procs.push_back(filter);
 }
-void FilterBlock::end(std::stringstream &ss){
+void FilterBlock::end(std::stringstream &){
 	subproc proc = procs.back();
 	procs.pop_back();
 	close(proc.pipesfd[1]);
