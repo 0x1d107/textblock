@@ -1,4 +1,5 @@
 #include "blocks.h"
+#include <cctype>
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
@@ -45,4 +46,34 @@ void FilterBlock::line(std::stringstream &ss){
 	const char *line_buf = linestr.c_str();
 	write(proc.pipesfd[1],line_buf,line_sz);
 	write(proc.pipesfd[1],"\n",1);
+}
+void ExpansionBlock::begin(std::stringstream &){
+	
+}
+void ExpansionBlock::end(std::stringstream &){
+	
+}
+void ExpansionBlock::line(std::stringstream &ss){
+	while(!ss.eof()){
+		char c = ss.peek();
+		if(c == '\\'){
+			ss>>c;
+			ss>>c;
+			std::cout<<c;
+			continue;
+		} else if( c == '$'){
+			ss>> c;
+			std::stringstream varname;
+			while(std::isalnum(ss.peek())){
+				ss>>c;
+				varname << c;
+			}
+			// TODO expand variable
+			std::cout << varname.str();
+			continue;
+		}
+		
+		ss>>c;
+		std::cout<<c;
+	}
 }
