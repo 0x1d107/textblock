@@ -22,6 +22,7 @@ private:
 	void include_command(std::stringstream &liness);
 	void swap_input(std::stringstream &liness);
 	void setenv_command(std::stringstream &ss);
+	void setvar_command(std::stringstream &ss);
 	void quote_command(std::stringstream &ss);
 	template <typename T> void register_command(const std::string &name, T func){
 		commands[name] = std::bind(func,this,std::placeholders::_1);

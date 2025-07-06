@@ -42,6 +42,13 @@ void InputHandler::setenv_command(std::stringstream &ss){
 		exit(1);
 	}
 }
+void InputHandler::setvar_command(std::stringstream &ss){
+	std::string key;
+	ss >> key;
+	ss>> std::ws;
+	std::string value = ss.str().substr(ss.tellg());
+	variables[key] = value;
+}
 void InputHandler::quote_command(std::stringstream &ss){
 	ss >>std::ws;
 	std::string cmd = cmd_prefix+ss.str().substr(ss.tellg());
@@ -61,6 +68,7 @@ void InputHandler::init_commands(){
 	register_command("swap",&InputHandler::swap_input);
 	register_command("q",&InputHandler::quote_command);
 	register_command("setenv",&InputHandler::setenv_command);
+	register_command("setvar",&InputHandler::setvar_command);
 
 	//blocks
 	block_handlers["filter"] = std::make_unique<FilterBlock>();
