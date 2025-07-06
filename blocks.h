@@ -1,13 +1,7 @@
 #pragma once
 #include <deque>
 #include <sstream>
-struct TextBlock{
-	virtual void begin(std::stringstream & ss) =0;
-	virtual void end(std::stringstream &ss) =0;
-	virtual void line(std::stringstream &ss)=0;
-	virtual ~TextBlock() = default;
-};
-
+#include "input_handler.h"
 class FilterBlock :public TextBlock{
 public:
 	void begin(std::stringstream & ss) override;
@@ -23,8 +17,12 @@ private:
 };
 
 class ExpansionBlock : public TextBlock{
+	public:
+	ExpansionBlock(InputHandler *handler);
+	private:
 	void begin(std::stringstream & ss) override;
 	void end(std::stringstream &ss) override;
 	void line(std::stringstream &ss) override;
+	InputHandler *_handler;
 
 };

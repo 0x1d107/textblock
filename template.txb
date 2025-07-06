@@ -1,7 +1,7 @@
 <html>
 <head>
-#%block filter envsubst
-	<title> ${title}  </title>
+#%block expand
+	<title> $title  </title>
 #%end
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
 </head>

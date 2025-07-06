@@ -14,6 +14,10 @@ exe = executable(
   'textblock.cpp',
   'blocks.cpp',
   'blocks.h',
+  'input_handler.h',
+  'input_handler.cpp',
+  'tokens.h',
+  'tokens.cpp',
   install : true,
   dependencies : dependencies,
 )

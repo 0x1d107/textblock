@@ -47,6 +47,10 @@ void FilterBlock::line(std::stringstream &ss){
 	write(proc.pipesfd[1],line_buf,line_sz);
 	write(proc.pipesfd[1],"\n",1);
 }
+
+ExpansionBlock::ExpansionBlock(InputHandler *handler){
+	_handler = handler;
+}
 void ExpansionBlock::begin(std::stringstream &){
 	
 }
@@ -55,25 +59,27 @@ void ExpansionBlock::end(std::stringstream &){
 }
 void ExpansionBlock::line(std::stringstream &ss){
 	while(!ss.eof()){
-		char c = ss.peek();
+		char c;
+		ss.get(c);
 		if(c == '\\'){
-			ss>>c;
-			ss>>c;
+			ss.get(c);
 			std::cout<<c;
 			continue;
 		} else if( c == '$'){
-			ss>> c;
+			ss.get(c);
 			std::stringstream varname;
-			while(std::isalnum(ss.peek())){
-				ss>>c;
+			while(std::isalnum(c)&&!ss.eof()){
 				varname << c;
+				ss.get(c);
 			}
 			// TODO expand variable
-			std::cout << varname.str();
+			auto it = _handler->variables.find(varname.str());
+			if(it == _handler->variables.end()){
+				continue;
+			}
+			std::cout << it->second;
 			continue;
-		}
-		
-		ss>>c;
+		}	
 		std::cout<<c;
 	}
 }
