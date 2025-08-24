@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "intfs.h"
+#include "fexp_evaluator.h"
 
 typedef std::function<void(std::stringstream &)> sshandler_t;
 class InputHandler{
@@ -17,6 +18,7 @@ public:
 	std::unordered_map<std::string,std::string> variables;
 private:
 	void init_commands();
+	//commands
 	void begin_block(std::stringstream  &liness);
 	void end_block(std::stringstream &liness);
 	void include_command(std::stringstream &liness);
@@ -24,6 +26,7 @@ private:
 	void setenv_command(std::stringstream &ss);
 	void setvar_command(std::stringstream &ss);
 	void quote_command(std::stringstream &ss);
+
 	template <typename T> void register_command(const std::string &name, T func){
 		commands[name] = std::bind(func,this,std::placeholders::_1);
 	}
