@@ -1,4 +1,4 @@
-#%setenv title textblock macro processor
+#%setvar title textblock macro processor
 #%include template.txb
 
 # `textblock` macro processor

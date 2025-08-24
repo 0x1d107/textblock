@@ -61,6 +61,10 @@ void ExpansionBlock::line(std::stringstream &ss){
 	while(!ss.eof()){
 		char c;
 		ss.get(c);
+		if(ss.eof()){
+			std::cout << std::endl;
+			return;
+		}
 		if(c == '\\'){
 			ss.get(c);
 			std::cout<<c;
@@ -78,8 +82,7 @@ void ExpansionBlock::line(std::stringstream &ss){
 				continue;
 			}
 			std::cout << it->second;
-			if(!ss.eof())
-				std::cout << c;
+			std::cout<<c;
 			continue;
 		}	
 		std::cout<<c;

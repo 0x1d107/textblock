@@ -1,9 +1,9 @@
 <html>
 <head>
 #%block expand
-	<title> $title  </title>
-#%end
+	<title> $title </title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
+#%end
 </head>
 <body>
 #%block filter lowdown
