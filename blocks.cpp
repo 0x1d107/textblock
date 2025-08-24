@@ -82,7 +82,10 @@ void ExpansionBlock::line(std::stringstream &ss){
 				continue;
 			}
 			std::cout << it->second;
-			std::cout<<c;
+			if(!ss.eof())
+				std::cout<<c;
+			else 
+				std::cout<< std::endl;
 			continue;
 		}	
 		std::cout<<c;
